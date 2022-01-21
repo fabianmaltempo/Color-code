@@ -19,7 +19,7 @@ function fillTriesBoxes() {
         var inner = "";
         inner += "\n            <div class=\"row tablerow bottom-border\" id=\"tablerow" + (setup.attempts - i - 1) + "\" onclick=\"copyPrevious(" + (setup.attempts - i - 1) + ")\">\n        ";
         for (var j = 0; j < setup.difficulty; j++) {
-            inner += "\n                <div class=\"col align-items-center d-flex justify-content-center attempt" + (setup.attempts - i - 1) + "BoxDiv\"><div class=\"box attemptbox\" id=\"attempt" + (setup.attempts - i - 1) + "box" + j + "\"></div></div>\n            ";
+            inner += "\n                <div class=\"col align-items-center d-flex justify-content-center attempt" + (setup.attempts - i - 1) + "BoxDiv\"><div class=\"box attemptbox shadow\" id=\"attempt" + (setup.attempts - i - 1) + "box" + j + "\"></div></div>\n            ";
         }
         inner += "\n            </div>\n        ";
         elems.tries.innerHTML += inner;
@@ -37,7 +37,7 @@ function fillResultsDiv() {
         var inner = "";
         inner += "\n            <div class=\"row tablerow bottom-border\">\n        ";
         for (var j = 0; j < setup.difficulty; j++) {
-            inner += "\n                <div class=\"col align-items-center d-flex justify-content-center\"><div class=\"box resultbox rounded-circle\" id=\"attempt" + (setup.attempts - i - 1) + "resultbox" + j + "\"></div></div>\n            ";
+            inner += "\n                <div class=\"col align-items-center d-flex justify-content-center\"><div class=\"box resultbox rounded-circle shadow\" id=\"attempt" + (setup.attempts - i - 1) + "resultbox" + j + "\"></div></div>\n            ";
         }
         inner += "\n            </div>\n        ";
         elems.results.innerHTML += inner;
@@ -58,7 +58,7 @@ var selectedColor = "red";
 function fillGuessBox(i) {
     guesses[i] = selectedColor;
     var attemptbox = document.querySelector("#attempt" + attempt + "box" + i);
-    attemptbox.className = "box attemptbox";
+    attemptbox.className = "box attemptbox shadow";
     attemptbox.classList.add(selectedColor);
     if (isCompleteGuesses()) {
         elems.submitBtn.disabled = false;
@@ -115,7 +115,7 @@ function guess() {
     for (var _i = 0, _a = attempts[attempt]; _i < _a.length; _i++) {
         var color = _a[_i];
         var box = document.querySelector("#attempt" + attempt + "box" + i);
-        box.className = "box attemptbox";
+        box.className = "box attemptbox shadow";
         box.classList.add(color);
         i++;
     }
@@ -179,7 +179,7 @@ function clearGuess() {
     elems.submitBtn.disabled = true;
     for (var i = 0; i < setup.difficulty; i++) {
         var attemptbox = document.querySelector("#attempt" + attempt + "box" + i);
-        attemptbox.className = "box attemptbox";
+        attemptbox.className = "box attemptbox shadow";
     }
 }
 //Set color code
@@ -212,7 +212,7 @@ function copyPrevious(option) {
         var color = _a[_i];
         guesses[i] = color;
         var attemptbox = document.querySelector("#attempt" + attempt + "box" + i);
-        attemptbox.className = "box attemptbox";
+        attemptbox.className = "box attemptbox shadow";
         attemptbox.classList.add(color);
         i++;
     }

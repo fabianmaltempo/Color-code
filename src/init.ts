@@ -28,7 +28,7 @@ function fillTriesBoxes(){
         `
         for(let j=0;j<setup.difficulty;j++){
             inner+=`
-                <div class="col align-items-center d-flex justify-content-center attempt`+ (setup.attempts-i-1) +`BoxDiv"><div class="box attemptbox" id="attempt`+ (setup.attempts-i-1) +`box`+ j +`"></div></div>
+                <div class="col align-items-center d-flex justify-content-center attempt`+ (setup.attempts-i-1) +`BoxDiv"><div class="box attemptbox shadow" id="attempt`+ (setup.attempts-i-1) +`box`+ j +`"></div></div>
             `
         }
         inner+=`
@@ -53,7 +53,7 @@ function fillResultsDiv(){
         `
         for(let j=0;j<setup.difficulty;j++){
             inner+=`
-                <div class="col align-items-center d-flex justify-content-center"><div class="box resultbox rounded-circle" id="attempt`+ (setup.attempts-i-1) +`resultbox`+ j +`"></div></div>
+                <div class="col align-items-center d-flex justify-content-center"><div class="box resultbox rounded-circle shadow" id="attempt`+ (setup.attempts-i-1) +`resultbox`+ j +`"></div></div>
             `
         }
         inner+=`
@@ -79,7 +79,7 @@ let selectedColor="red";
 function fillGuessBox(i: number){
     guesses[i]=selectedColor;
     let attemptbox=document.querySelector("#attempt"+attempt+"box"+i)
-    attemptbox.className="box attemptbox";
+    attemptbox.className="box attemptbox shadow";
     attemptbox.classList.add(selectedColor);
     if(isCompleteGuesses()){
         (elems.submitBtn as HTMLButtonElement).disabled=false;
@@ -134,7 +134,7 @@ function guess(){
     let i=0;
     for(let color of attempts[attempt]){
         let box = document.querySelector("#attempt"+attempt+"box"+i);
-        box.className="box attemptbox";
+        box.className="box attemptbox shadow";
         box.classList.add(color);
         i++;
     }
@@ -198,7 +198,7 @@ function clearGuess(){
     (elems.submitBtn as HTMLButtonElement).disabled=true;
     for(let i=0;i<setup.difficulty;i++){
         let attemptbox=document.querySelector("#attempt"+attempt+"box"+i);
-        attemptbox.className="box attemptbox"
+        attemptbox.className="box attemptbox shadow"
     }
 }
 
@@ -233,7 +233,7 @@ function copyPrevious(option:number){
     for(let color of attempts[option]){
         guesses[i]=color;
         let attemptbox=document.querySelector("#attempt"+attempt+"box"+i)
-        attemptbox.className="box attemptbox";
+        attemptbox.className="box attemptbox shadow";
         attemptbox.classList.add(color);
         i++
     }
