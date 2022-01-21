@@ -139,7 +139,9 @@ function guess(){
         i++;
     }
     attempt++
-    clearGuess();
+    if(attempt!=setup.attempts){
+        clearGuess();
+    }
     if(guessIsCode()){
         wonGame();
     } else
