@@ -24,7 +24,7 @@ function fillTriesBoxes(){
     for(let i=0;i<setup.attempts;i++){
         let inner=""
         inner+=`
-            <div class="row tablerow" id="tablerow`+(setup.attempts-i-1)+`" onclick="copyPrevious(`+ (setup.attempts-i-1) +`)">
+            <div class="row tablerow top-border" id="tablerow`+(setup.attempts-i-1)+`" onclick="copyPrevious(`+ (setup.attempts-i-1) +`)">
         `
         for(let j=0;j<setup.difficulty;j++){
             inner+=`
@@ -54,7 +54,7 @@ function fillResultsDiv(){
     for(let i=0;i<setup.attempts;i++){
         let inner=""
         inner+=`
-            <div class="row tablerow">
+            <div class="row tablerow top-border">
         `
         for(let j=0;j<setup.difficulty;j++){
             inner+=`
@@ -109,8 +109,11 @@ function isCompleteGuesses(): boolean{
 }
 
 function changeSelectedColor(color: string){
+    let prevSelBox=document.querySelector("#guess"+selectedColor);
+    prevSelBox.classList.remove("selected-color")
+    let newSelBox=document.querySelector("#guess"+color);
+    newSelBox.classList.add("selected-color")
     selectedColor=color;
-    (document.querySelector("#radio"+color) as HTMLInputElement).checked=true;
     let i=0
     for(let item of guesses){
         if(item==""){
@@ -126,7 +129,7 @@ let attempts=[];
 function guess(){
     if(attempt!=setup.attempts-1){
         let attemptonbox0=document.querySelector("#tablerow"+attempt);
-        attemptonbox0.className="row tablerow"
+        attemptonbox0.className="row tablerow top-border"
         let attemptonbox1=document.querySelector("#tablerow"+(attempt+1))
         attemptonbox1.classList.add("onattempt")
     }
@@ -147,7 +150,6 @@ function guess(){
         lostGame()
     }
     fillResult(checkGuess());
-    (document.querySelector("#copyPrevious") as HTMLButtonElement).disabled=false;
 }
 
 function checkGuess(): result{
@@ -198,6 +200,10 @@ function clearGuess(){
     guesses=clearGuesses();
     clearGuessBoxes();
     (elems.submitBtn as HTMLButtonElement).disabled=true;
+    for(let i=0;i<setup.difficulty;i++){
+        let attemptbox=document.querySelector("#attempt"+attempt+"box"+i);
+        attemptbox.className="box attemptbox"
+    }
 }
 
 //Set color code

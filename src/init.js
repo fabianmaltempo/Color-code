@@ -17,7 +17,7 @@ var setup = {
 function fillTriesBoxes() {
     for (var i = 0; i < setup.attempts; i++) {
         var inner = "";
-        inner += "\n            <div class=\"row tablerow\" id=\"tablerow" + (setup.attempts - i - 1) + "\" onclick=\"copyPrevious(" + (setup.attempts - i - 1) + ")\">\n        ";
+        inner += "\n            <div class=\"row tablerow top-border\" id=\"tablerow" + (setup.attempts - i - 1) + "\" onclick=\"copyPrevious(" + (setup.attempts - i - 1) + ")\">\n        ";
         for (var j = 0; j < setup.difficulty; j++) {
             inner += "\n                <div class=\"col align-items-center d-flex justify-content-center\"><div class=\"box attemptbox\" id=\"attempt" + (setup.attempts - i - 1) + "box" + j + "\"></div></div>\n            ";
         }
@@ -39,7 +39,7 @@ fillGuessBoxes();
 function fillResultsDiv() {
     for (var i = 0; i < setup.attempts; i++) {
         var inner = "";
-        inner += "\n            <div class=\"row tablerow\">\n        ";
+        inner += "\n            <div class=\"row tablerow top-border\">\n        ";
         for (var j = 0; j < setup.difficulty; j++) {
             inner += "\n                <div class=\"col align-items-center d-flex justify-content-center\"><div class=\"box resultbox\" id=\"attempt" + (setup.attempts - i - 1) + "resultbox" + j + "\"></div></div>\n            ";
         }
@@ -87,8 +87,11 @@ function isCompleteGuesses() {
     return true;
 }
 function changeSelectedColor(color) {
+    var prevSelBox = document.querySelector("#guess" + selectedColor);
+    prevSelBox.classList.remove("selected-color");
+    var newSelBox = document.querySelector("#guess" + color);
+    newSelBox.classList.add("selected-color");
     selectedColor = color;
-    document.querySelector("#radio" + color).checked = true;
     var i = 0;
     for (var _i = 0, guesses_2 = guesses; _i < guesses_2.length; _i++) {
         var item = guesses_2[_i];
@@ -104,7 +107,7 @@ var attempts = [];
 function guess() {
     if (attempt != setup.attempts - 1) {
         var attemptonbox0 = document.querySelector("#tablerow" + attempt);
-        attemptonbox0.className = "row tablerow";
+        attemptonbox0.className = "row tablerow top-border";
         var attemptonbox1 = document.querySelector("#tablerow" + (attempt + 1));
         attemptonbox1.classList.add("onattempt");
     }
@@ -126,7 +129,6 @@ function guess() {
         lostGame();
     }
     fillResult(checkGuess());
-    document.querySelector("#copyPrevious").disabled = false;
 }
 function checkGuess() {
     var correct = 0;
@@ -177,6 +179,10 @@ function clearGuess() {
     guesses = clearGuesses();
     clearGuessBoxes();
     elems.submitBtn.disabled = true;
+    for (var i = 0; i < setup.difficulty; i++) {
+        var attemptbox = document.querySelector("#attempt" + attempt + "box" + i);
+        attemptbox.className = "box attemptbox";
+    }
 }
 //Set color code
 var colorCode = [];
