@@ -1,3 +1,4 @@
+var confetti;
 var triesDiv = document.querySelector("#tries");
 var guessDiv = document.querySelector("#guess");
 var submitBtn = document.querySelector("#submitBtn");
@@ -17,7 +18,7 @@ var setup = {
 function fillTriesBoxes() {
     for (var i = 0; i < setup.attempts; i++) {
         var inner = "";
-        inner += "\n            <div class=\"row tablerow bottom-border\" id=\"tablerow" + (setup.attempts - i - 1) + "\" onclick=\"copyPrevious(" + (setup.attempts - i - 1) + ")\">\n        ";
+        inner += "\n            <div class=\"row tablerow bottom-border attemptrow\" id=\"tablerow" + (setup.attempts - i - 1) + "\">\n        ";
         for (var j = 0; j < setup.difficulty; j++) {
             inner += "\n                <div class=\"col align-items-center d-flex justify-content-center attempt" + (setup.attempts - i - 1) + "BoxDiv\"><div class=\"box attemptbox shadow\" id=\"attempt" + (setup.attempts - i - 1) + "box" + j + "\"></div></div>\n            ";
         }
@@ -56,12 +57,14 @@ function clearGuesses() {
 var guesses = clearGuesses();
 var selectedColor = "red";
 function fillGuessBox(i) {
-    guesses[i] = selectedColor;
-    var attemptbox = document.querySelector("#attempt" + attempt + "box" + i);
-    attemptbox.className = "box attemptbox shadow";
-    attemptbox.classList.add(selectedColor);
-    if (isCompleteGuesses()) {
-        elems.submitBtn.disabled = false;
+    if (!guessIsCode()) {
+        guesses[i] = selectedColor;
+        var attemptbox = document.querySelector("#attempt" + attempt + "box" + i);
+        attemptbox.className = "box attemptbox shadow";
+        attemptbox.classList.add(selectedColor);
+        if (isCompleteGuesses()) {
+            elems.submitBtn.disabled = false;
+        }
     }
 }
 function isCompleteGuesses() {
@@ -74,37 +77,40 @@ function isCompleteGuesses() {
     return true;
 }
 function changeSelectedColor(color) {
-    if (color != selectedColor) {
-        var prevSelBox = document.querySelector("#guess" + selectedColor);
-        prevSelBox.classList.remove("selected-color");
-        var newSelBox = document.querySelector("#guess" + color);
-        newSelBox.classList.add("selected-color");
-        selectedColor = color;
-    }
-    var i = 0;
-    for (var _i = 0, guesses_2 = guesses; _i < guesses_2.length; _i++) {
-        var item = guesses_2[_i];
-        if (item == "") {
-            fillGuessBox(i);
-            break;
+    if (!guessIsCode()) {
+        if (color != selectedColor) {
+            var prevSelBox = document.querySelector("#guess" + selectedColor);
+            prevSelBox.classList.remove("selected-color");
+            var newSelBox = document.querySelector("#guess" + color);
+            newSelBox.classList.add("selected-color");
+            selectedColor = color;
         }
-        i++;
+        var i = 0;
+        for (var _i = 0, guesses_2 = guesses; _i < guesses_2.length; _i++) {
+            var item = guesses_2[_i];
+            if (item == "") {
+                fillGuessBox(i);
+                break;
+            }
+            i++;
+        }
     }
 }
 var attempt = 0;
 var attempts = [];
 function guess() {
+    //change attempt focused row
+    var attemptonbox0 = document.querySelector("#tablerow" + attempt);
+    attemptonbox0.className = "row tablerow bottom-border attemptrow";
+    attemptonbox0.setAttribute("onclick", "copyPrevious(" + attempt + ")");
+    //change attempted row
+    var attemptBoxes0 = document.querySelectorAll(".attempt" + attempt + "BoxDiv");
+    for (var j = 0; j < attemptBoxes0.length; j++) {
+        attemptBoxes0[j].removeAttribute("onclick");
+    }
     if (attempt != setup.attempts - 1) {
-        //change attempt focused row
-        var attemptonbox0 = document.querySelector("#tablerow" + attempt);
-        attemptonbox0.className = "row tablerow bottom-border";
         var attemptonbox1 = document.querySelector("#tablerow" + (attempt + 1));
         attemptonbox1.classList.add("onattempt");
-        //change attempted row
-        var attemptBoxes0 = document.querySelectorAll(".attempt" + attempt + "BoxDiv");
-        for (var j = 0; j < attemptBoxes0.length; j++) {
-            attemptBoxes0[j].removeAttribute("onclick");
-        }
         var attemptBoxes1 = document.querySelectorAll(".attempt" + (attempt + 1) + "BoxDiv");
         for (var j = 0; j < attemptBoxes1.length; j++) {
             attemptBoxes1[j].setAttribute("onclick", "fillGuessBox(" + j + ")");
@@ -120,9 +126,7 @@ function guess() {
         i++;
     }
     attempt++;
-    if (attempt != setup.attempts) {
-        clearGuess();
-    }
+    clearGuess();
     if (guessIsCode()) {
         wonGame();
     }
@@ -166,22 +170,28 @@ function checkGuess() {
     return { correct: correct, misplaced: misplaced };
 }
 function guessIsCode() {
-    var i = 0;
-    for (var _i = 0, _a = attempts[attempt - 1]; _i < _a.length; _i++) {
-        var color = _a[_i];
-        if (color != colorCode[i]) {
-            return false;
+    if (attempts.length > 0) {
+        var i = 0;
+        for (var _i = 0, _a = attempts[attempt - 1]; _i < _a.length; _i++) {
+            var color = _a[_i];
+            if (color != colorCode[i]) {
+                return false;
+            }
+            i++;
         }
-        i++;
     }
+    else
+        return false;
     return true;
 }
 function clearGuess() {
     guesses = clearGuesses();
     elems.submitBtn.disabled = true;
-    for (var i = 0; i < setup.difficulty; i++) {
-        var attemptbox = document.querySelector("#attempt" + attempt + "box" + i);
-        attemptbox.className = "box attemptbox shadow";
+    if (!guessIsCode()) {
+        for (var i = 0; i < setup.difficulty; i++) {
+            var attemptbox = document.querySelector("#attempt" + attempt + "box" + i);
+            attemptbox.className = "box attemptbox shadow";
+        }
     }
 }
 //Set color code
@@ -209,30 +219,50 @@ function fillResult(options) {
 }
 //Copy previous
 function copyPrevious(option) {
-    var i = 0;
-    for (var _i = 0, _a = attempts[option]; _i < _a.length; _i++) {
-        var color = _a[_i];
-        guesses[i] = color;
-        var attemptbox = document.querySelector("#attempt" + attempt + "box" + i);
-        attemptbox.className = "box attemptbox shadow";
-        attemptbox.classList.add(color);
-        i++;
-    }
-    if (isCompleteGuesses()) {
-        elems.submitBtn.disabled = false;
+    if (!guessIsCode()) {
+        var i = 0;
+        for (var _i = 0, _a = attempts[option]; _i < _a.length; _i++) {
+            var color = _a[_i];
+            guesses[i] = color;
+            var attemptbox = document.querySelector("#attempt" + attempt + "box" + i);
+            attemptbox.className = "box attemptbox shadow";
+            attemptbox.classList.add(color);
+            i++;
+        }
+        if (isCompleteGuesses()) {
+            elems.submitBtn.disabled = false;
+        }
     }
 }
 //Lost Game
 function lostGame() {
-    setTimeout(function () {
-        alert("You have lost the game");
-        document.location.reload();
-    }, 1000);
+    flipSecretCode();
+    document.querySelector("#message").innerHTML = "Almost! You will crack it next time!";
+    /*
+    setTimeout(() => {
+        alert("You have lost the game")
+        document.location.reload()},1000)
+        */
 }
 //Won game
 function wonGame() {
-    setTimeout(function () {
-        alert("You have won the game");
-        document.location.reload();
-    }, 1000);
+    flipSecretCode();
+    document.querySelector("#message").innerHTML = "Congratulations! You have Won!";
+    confetti.start();
+    /*
+    setTimeout(() => {
+        alert("You have won the game")
+        document.location.reload()},1000)
+        */
+}
+function flipSecretCode() {
+    document.querySelector("#flip-card").classList.add("flipped");
+    var secretCodeDiv = document.querySelector("#secret-code");
+    var inner = "\n        <div class=\"row tablerow2 align-items-center d-flex justify-content-center secret-back rounded shadow\">\n            <div class=\"row\">\n    ";
+    for (var _i = 0, colorCode_1 = colorCode; _i < colorCode_1.length; _i++) {
+        var color = colorCode_1[_i];
+        inner += "\n            <div class=\"col align-items-center d-flex justify-content-center\">    \n                <div class=\"box secretbox shadow\" style=\"background-color: " + color + ";\"></div>\n            </div>\n            ";
+    }
+    inner += "</div></div>";
+    secretCodeDiv.innerHTML = inner;
 }

@@ -1,3 +1,4 @@
+let confetti;
 const triesDiv=document.querySelector("#tries");
 const guessDiv=document.querySelector("#guess");
 const submitBtn=document.querySelector("#submitBtn");
@@ -24,7 +25,7 @@ function fillTriesBoxes(){
     for(let i=0;i<setup.attempts;i++){
         let inner=""
         inner+=`
-            <div class="row tablerow bottom-border" id="tablerow`+(setup.attempts-i-1)+`" onclick="copyPrevious(`+ (setup.attempts-i-1) +`)">
+            <div class="row tablerow bottom-border attemptrow" id="tablerow`+(setup.attempts-i-1)+`">
         `
         for(let j=0;j<setup.difficulty;j++){
             inner+=`
@@ -77,13 +78,16 @@ let guesses=clearGuesses()
 
 let selectedColor="red";
 function fillGuessBox(i: number){
-    guesses[i]=selectedColor;
-    let attemptbox=document.querySelector("#attempt"+attempt+"box"+i)
-    attemptbox.className="box attemptbox shadow";
-    attemptbox.classList.add(selectedColor);
-    if(isCompleteGuesses()){
-        (elems.submitBtn as HTMLButtonElement).disabled=false;
+    if(!guessIsCode()){
+        guesses[i]=selectedColor;
+        let attemptbox=document.querySelector("#attempt"+attempt+"box"+i)
+        attemptbox.className="box attemptbox shadow";
+        attemptbox.classList.add(selectedColor);
+        if(isCompleteGuesses()){
+            (elems.submitBtn as HTMLButtonElement).disabled=false;
+        }
     }
+    
 }
 
 function isCompleteGuesses(): boolean{
@@ -94,37 +98,43 @@ function isCompleteGuesses(): boolean{
 }
 
 function changeSelectedColor(color: string){
-    if(color!=selectedColor){
-        let prevSelBox=document.querySelector("#guess"+selectedColor);
-        prevSelBox.classList.remove("selected-color")
-        let newSelBox=document.querySelector("#guess"+color);
-        newSelBox.classList.add("selected-color")
-        selectedColor=color;
-    }
-    let i=0
-    for(let item of guesses){
-        if(item==""){
-            fillGuessBox(i)
-            break;
+    if(!guessIsCode()){
+        if(color!=selectedColor){
+            let prevSelBox=document.querySelector("#guess"+selectedColor);
+            prevSelBox.classList.remove("selected-color")
+            let newSelBox=document.querySelector("#guess"+color);
+            newSelBox.classList.add("selected-color")
+            selectedColor=color;
         }
-        i++
+        let i=0
+        for(let item of guesses){
+            if(item==""){
+                fillGuessBox(i)
+                break;
+            }
+            i++
+        }
     }
+    
 }
 
 let attempt=0
 let attempts=[];
 function guess(){
+    //change attempt focused row
+    let attemptonbox0=document.querySelector("#tablerow"+attempt);
+    attemptonbox0.className="row tablerow bottom-border attemptrow"
+    attemptonbox0.setAttribute("onclick",`copyPrevious(`+ attempt +`)`)
+    //change attempted row
+    let attemptBoxes0=document.querySelectorAll(".attempt"+ attempt +"BoxDiv");
+    for(let j=0;j<attemptBoxes0.length;j++){
+        attemptBoxes0[j].removeAttribute("onclick");
+    }
     if(attempt!=setup.attempts-1){
-        //change attempt focused row
-        let attemptonbox0=document.querySelector("#tablerow"+attempt);
-        attemptonbox0.className="row tablerow bottom-border"
+        
         let attemptonbox1=document.querySelector("#tablerow"+(attempt+1))
         attemptonbox1.classList.add("onattempt")
-        //change attempted row
-        let attemptBoxes0=document.querySelectorAll(".attempt"+ attempt +"BoxDiv");
-        for(let j=0;j<attemptBoxes0.length;j++){
-            attemptBoxes0[j].removeAttribute("onclick");
-        }
+        
         let attemptBoxes1=document.querySelectorAll(".attempt"+ (attempt+1) +"BoxDiv")
         for(let j=0;j<attemptBoxes1.length;j++){
             attemptBoxes1[j].setAttribute("onclick","fillGuessBox("+ j +")")
@@ -138,10 +148,8 @@ function guess(){
         box.classList.add(color);
         i++;
     }
-    attempt++
-    if(attempt!=setup.attempts){
-        clearGuess();
-    }
+    attempt++;
+    clearGuess();
     if(guessIsCode()){
         wonGame();
     } else
@@ -185,23 +193,28 @@ function checkGuess(): result{
 }
 
 function guessIsCode(): boolean{
-    let i=0;
-    for(let color of attempts[attempt-1]){
-        if (color!=colorCode[i]){
-            return false;
+    if(attempts.length>0){
+        let i=0;
+        for(let color of attempts[attempt-1]){
+            if (color!=colorCode[i]){
+                return false;
+            }
+            i++
         }
-        i++
-    }
+    } else return false;
     return true;
 }
 
 function clearGuess(){
     guesses=clearGuesses();
     (elems.submitBtn as HTMLButtonElement).disabled=true;
-    for(let i=0;i<setup.difficulty;i++){
-        let attemptbox=document.querySelector("#attempt"+attempt+"box"+i);
-        attemptbox.className="box attemptbox shadow"
+    if(!guessIsCode()){
+        for(let i=0;i<setup.difficulty;i++){
+            let attemptbox=document.querySelector("#attempt"+attempt+"box"+i);
+            attemptbox.className="box attemptbox shadow"
+        }
     }
+    
 }
 
 //Set color code
@@ -231,29 +244,59 @@ function fillResult(options: result){
 
 //Copy previous
 function copyPrevious(option:number){
-    let i=0
-    for(let color of attempts[option]){
-        guesses[i]=color;
-        let attemptbox=document.querySelector("#attempt"+attempt+"box"+i)
-        attemptbox.className="box attemptbox shadow";
-        attemptbox.classList.add(color);
-        i++
+    if(!guessIsCode()){
+        let i=0
+        for(let color of attempts[option]){
+            guesses[i]=color;
+            let attemptbox=document.querySelector("#attempt"+attempt+"box"+i)
+            attemptbox.className="box attemptbox shadow";
+            attemptbox.classList.add(color);
+            i++
+        }
+        if(isCompleteGuesses()){
+            (elems.submitBtn as HTMLButtonElement).disabled=false;
+        }
     }
-    if(isCompleteGuesses()){
-        (elems.submitBtn as HTMLButtonElement).disabled=false;
-    }
+    
 }
 
 //Lost Game
 function lostGame(){
+    flipSecretCode();
+    document.querySelector("#message").innerHTML="Almost! You will crack it next time!"
+    /*
     setTimeout(() => {
         alert("You have lost the game")
         document.location.reload()},1000)
+        */
 }
 
 //Won game
 function wonGame(){
+    flipSecretCode();
+    document.querySelector("#message").innerHTML="Congratulations! You have Won!";
+    confetti.start();
+    /*
     setTimeout(() => {
         alert("You have won the game")
         document.location.reload()},1000)
+        */
+}
+
+function flipSecretCode(){
+    document.querySelector("#flip-card").classList.add("flipped")
+    let secretCodeDiv=document.querySelector("#secret-code");
+    let inner=`
+        <div class="row tablerow2 align-items-center d-flex justify-content-center secret-back rounded shadow">
+            <div class="row">
+    `
+    for(let color of colorCode){
+        inner+=`
+            <div class="col align-items-center d-flex justify-content-center">    
+                <div class="box secretbox shadow" style="background-color: `+ color +`;"></div>
+            </div>
+            `
+    }
+    inner+=`</div></div>`
+    secretCodeDiv.innerHTML=inner
 }
