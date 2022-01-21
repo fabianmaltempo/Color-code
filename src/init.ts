@@ -24,11 +24,11 @@ function fillTriesBoxes(){
     for(let i=0;i<setup.attempts;i++){
         let inner=""
         inner+=`
-            <div class="row tablerow" onclick="copyPrevious(`+ (setup.attempts-i-1) +`)">
+            <div class="row tablerow" id="tablerow`+(setup.attempts-i-1)+`" onclick="copyPrevious(`+ (setup.attempts-i-1) +`)">
         `
         for(let j=0;j<setup.difficulty;j++){
             inner+=`
-                <div class="col d-flex justify-content-center"><div class="box attemptbox" id="attempt`+ (setup.attempts-i-1) +`box`+ j +`"></div></div>
+                <div class="col align-items-center d-flex justify-content-center"><div class="box attemptbox" id="attempt`+ (setup.attempts-i-1) +`box`+ j +`"></div></div>
             `
         }
         inner+=`
@@ -36,13 +36,15 @@ function fillTriesBoxes(){
         `
         elems.tries.innerHTML+=inner
     }
+    let attemptbox0=document.querySelector("#tablerow0")
+    attemptbox0.classList.add("onattempt")
 }
 fillTriesBoxes()
 
 function fillGuessBoxes(){
     let inner="";
     for(let i=0;i<setup.difficulty;i++){
-        inner+=`<div class="col d-flex justify-content-center" onclick="fillGuessBox(`+ i +`)"><div class="box guessbox" id="box` + i + `"></div></div>`
+        inner+=`<div class="col align-items-center d-flex justify-content-center" onclick="fillGuessBox(`+ i +`)"><div class="box guessbox" id="box` + i + `"></div></div>`
     }
     elems.guess.innerHTML=inner;
 }
@@ -56,7 +58,7 @@ function fillResultsDiv(){
         `
         for(let j=0;j<setup.difficulty;j++){
             inner+=`
-                <div class="col d-flex justify-content-center"><div class="box resultbox" id="attempt`+ (setup.attempts-i-1) +`resultbox`+ j +`"></div></div>
+                <div class="col align-items-center d-flex justify-content-center"><div class="box resultbox" id="attempt`+ (setup.attempts-i-1) +`resultbox`+ j +`"></div></div>
             `
         }
         inner+=`
@@ -91,6 +93,9 @@ function fillGuessBox(i: number){
     let guessbox = document.querySelector("#box" + i);
     guessbox.className="box guessbox";
     guessbox.classList.add(selectedColor)
+    let attemptbox=document.querySelector("#attempt"+attempt+"box"+i)
+    attemptbox.className="box attemptbox";
+    attemptbox.classList.add(selectedColor);
     if(isCompleteGuesses()){
         (elems.submitBtn as HTMLButtonElement).disabled=false;
     }
@@ -106,11 +111,23 @@ function isCompleteGuesses(): boolean{
 function changeSelectedColor(color: string){
     selectedColor=color;
     (document.querySelector("#radio"+color) as HTMLInputElement).checked=true;
+    let i=0
+    for(let item of guesses){
+        if(item==""){
+            fillGuessBox(i)
+            break;
+        }
+        i++
+    }
 }
 
 let attempt=0
 let attempts=[];
 function guess(){
+    let attemptonbox0=document.querySelector("#tablerow"+attempt);
+    attemptonbox0.className="row tablerow"
+    let attemptonbox1=document.querySelector("#tablerow"+(attempt+1))
+    attemptonbox1.classList.add("onattempt")
     attempts.push(guesses.slice())
     let i=0;
     for(let color of attempts[attempt]){
@@ -214,6 +231,9 @@ function copyPrevious(option:number){
         let guessbox = document.querySelector("#box" + i);
         guessbox.className="box guessbox";
         guessbox.classList.add(color)
+        let attemptbox=document.querySelector("#attempt"+attempt+"box"+i)
+        attemptbox.className="box attemptbox";
+        attemptbox.classList.add(color);
         i++
     }
     if(isCompleteGuesses()){

@@ -17,19 +17,21 @@ var setup = {
 function fillTriesBoxes() {
     for (var i = 0; i < setup.attempts; i++) {
         var inner = "";
-        inner += "\n            <div class=\"row tablerow\" onclick=\"copyPrevious(" + (setup.attempts - i - 1) + ")\">\n        ";
+        inner += "\n            <div class=\"row tablerow\" id=\"tablerow" + (setup.attempts - i - 1) + "\" onclick=\"copyPrevious(" + (setup.attempts - i - 1) + ")\">\n        ";
         for (var j = 0; j < setup.difficulty; j++) {
-            inner += "\n                <div class=\"col d-flex justify-content-center\"><div class=\"box attemptbox\" id=\"attempt" + (setup.attempts - i - 1) + "box" + j + "\"></div></div>\n            ";
+            inner += "\n                <div class=\"col align-items-center d-flex justify-content-center\"><div class=\"box attemptbox\" id=\"attempt" + (setup.attempts - i - 1) + "box" + j + "\"></div></div>\n            ";
         }
         inner += "\n            </div>\n        ";
         elems.tries.innerHTML += inner;
     }
+    var attemptbox0 = document.querySelector("#tablerow0");
+    attemptbox0.classList.add("onattempt");
 }
 fillTriesBoxes();
 function fillGuessBoxes() {
     var inner = "";
     for (var i = 0; i < setup.difficulty; i++) {
-        inner += "<div class=\"col d-flex justify-content-center\" onclick=\"fillGuessBox(" + i + ")\"><div class=\"box guessbox\" id=\"box" + i + "\"></div></div>";
+        inner += "<div class=\"col align-items-center d-flex justify-content-center\" onclick=\"fillGuessBox(" + i + ")\"><div class=\"box guessbox\" id=\"box" + i + "\"></div></div>";
     }
     elems.guess.innerHTML = inner;
 }
@@ -39,7 +41,7 @@ function fillResultsDiv() {
         var inner = "";
         inner += "\n            <div class=\"row tablerow\">\n        ";
         for (var j = 0; j < setup.difficulty; j++) {
-            inner += "\n                <div class=\"col d-flex justify-content-center\"><div class=\"box resultbox\" id=\"attempt" + (setup.attempts - i - 1) + "resultbox" + j + "\"></div></div>\n            ";
+            inner += "\n                <div class=\"col align-items-center d-flex justify-content-center\"><div class=\"box resultbox\" id=\"attempt" + (setup.attempts - i - 1) + "resultbox" + j + "\"></div></div>\n            ";
         }
         inner += "\n            </div>\n        ";
         elems.results.innerHTML += inner;
@@ -68,6 +70,9 @@ function fillGuessBox(i) {
     var guessbox = document.querySelector("#box" + i);
     guessbox.className = "box guessbox";
     guessbox.classList.add(selectedColor);
+    var attemptbox = document.querySelector("#attempt" + attempt + "box" + i);
+    attemptbox.className = "box attemptbox";
+    attemptbox.classList.add(selectedColor);
     if (isCompleteGuesses()) {
         elems.submitBtn.disabled = false;
     }
@@ -84,10 +89,23 @@ function isCompleteGuesses() {
 function changeSelectedColor(color) {
     selectedColor = color;
     document.querySelector("#radio" + color).checked = true;
+    var i = 0;
+    for (var _i = 0, guesses_2 = guesses; _i < guesses_2.length; _i++) {
+        var item = guesses_2[_i];
+        if (item == "") {
+            fillGuessBox(i);
+            break;
+        }
+        i++;
+    }
 }
 var attempt = 0;
 var attempts = [];
 function guess() {
+    var attemptonbox0 = document.querySelector("#tablerow" + attempt);
+    attemptonbox0.className = "row tablerow";
+    var attemptonbox1 = document.querySelector("#tablerow" + (attempt + 1));
+    attemptonbox1.classList.add("onattempt");
     attempts.push(guesses.slice());
     var i = 0;
     for (var _i = 0, _a = attempts[attempt]; _i < _a.length; _i++) {
@@ -190,6 +208,9 @@ function copyPrevious(option) {
         var guessbox = document.querySelector("#box" + i);
         guessbox.className = "box guessbox";
         guessbox.classList.add(color);
+        var attemptbox = document.querySelector("#attempt" + attempt + "box" + i);
+        attemptbox.className = "box attemptbox";
+        attemptbox.classList.add(color);
         i++;
     }
     if (isCompleteGuesses()) {

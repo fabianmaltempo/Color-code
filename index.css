@@ -10,7 +10,11 @@
 
 .tablerow{
     margin-top: 10px;
-    height: 30px;
+    height: 40px;
+}
+
+.onattempt{
+    background-color: lightgray;
 }
 
 #tries{
