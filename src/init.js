@@ -19,7 +19,7 @@ function fillTriesBoxes() {
         var inner = "";
         inner += "\n            <div class=\"row tablerow\">\n        ";
         for (var j = 0; j < setup.difficulty; j++) {
-            inner += "\n                <div class=\"col\"><div class=\"box attemptbox\" id=\"attempt" + (setup.attempts - i - 1) + "box" + j + "\"></div></div>\n            ";
+            inner += "\n                <div class=\"col d-flex justify-content-center\"><div class=\"box attemptbox\" id=\"attempt" + (setup.attempts - i - 1) + "box" + j + "\"></div></div>\n            ";
         }
         inner += "\n            </div>\n        ";
         elems.tries.innerHTML += inner;
@@ -29,7 +29,7 @@ fillTriesBoxes();
 function fillGuessBoxes() {
     var inner = "";
     for (var i = 0; i < setup.difficulty; i++) {
-        inner += "<div class=\"col\" onclick=\"fillGuessBox(" + i + ")\"><div class=\"box guessbox\" id=\"box" + i + "\"></div></div>";
+        inner += "<div class=\"col d-flex justify-content-center\" onclick=\"fillGuessBox(" + i + ")\"><div class=\"box guessbox\" id=\"box" + i + "\"></div></div>";
     }
     elems.guess.innerHTML = inner;
 }
@@ -39,7 +39,7 @@ function fillResultsDiv() {
         var inner = "";
         inner += "\n            <div class=\"row tablerow\">\n        ";
         for (var j = 0; j < setup.difficulty; j++) {
-            inner += "\n                <div class=\"col\"><div class=\"box resultbox\" id=\"attempt" + (setup.attempts - i - 1) + "resultbox" + j + "\"></div></div>\n            ";
+            inner += "\n                <div class=\"col d-flex justify-content-center\"><div class=\"box resultbox\" id=\"attempt" + (setup.attempts - i - 1) + "resultbox" + j + "\"></div></div>\n            ";
         }
         inner += "\n            </div>\n        ";
         elems.results.innerHTML += inner;

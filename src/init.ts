@@ -28,7 +28,7 @@ function fillTriesBoxes(){
         `
         for(let j=0;j<setup.difficulty;j++){
             inner+=`
-                <div class="col"><div class="box attemptbox" id="attempt`+ (setup.attempts-i-1) +`box`+ j +`"></div></div>
+                <div class="col d-flex justify-content-center"><div class="box attemptbox" id="attempt`+ (setup.attempts-i-1) +`box`+ j +`"></div></div>
             `
         }
         inner+=`
@@ -42,7 +42,7 @@ fillTriesBoxes()
 function fillGuessBoxes(){
     let inner="";
     for(let i=0;i<setup.difficulty;i++){
-        inner+=`<div class="col" onclick="fillGuessBox(`+ i +`)"><div class="box guessbox" id="box` + i + `"></div></div>`
+        inner+=`<div class="col d-flex justify-content-center" onclick="fillGuessBox(`+ i +`)"><div class="box guessbox" id="box` + i + `"></div></div>`
     }
     elems.guess.innerHTML=inner;
 }
@@ -56,7 +56,7 @@ function fillResultsDiv(){
         `
         for(let j=0;j<setup.difficulty;j++){
             inner+=`
-                <div class="col"><div class="box resultbox" id="attempt`+ (setup.attempts-i-1) +`resultbox`+ j +`"></div></div>
+                <div class="col d-flex justify-content-center"><div class="box resultbox" id="attempt`+ (setup.attempts-i-1) +`resultbox`+ j +`"></div></div>
             `
         }
         inner+=`
