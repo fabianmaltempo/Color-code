@@ -42,7 +42,7 @@ fillTriesBoxes()
 function fillGuessBoxes(){
     let inner="";
     for(let i=0;i<setup.difficulty;i++){
-        inner+=`<div class="col"><div class="box guessbox" id="box` + i + `" onclick="fillGuessBox(`+ i +`)"></div></div>`
+        inner+=`<div class="col" onclick="fillGuessBox(`+ i +`)"><div class="box guessbox" id="box` + i + `"></div></div>`
     }
     elems.guess.innerHTML=inner;
 }
@@ -105,6 +105,7 @@ function isCompleteGuesses(): boolean{
 
 function changeSelectedColor(color: string){
     selectedColor=color;
+    (document.querySelector("#radio"+color) as HTMLInputElement).checked=true;
 }
 
 let attempt=0

@@ -12,13 +12,13 @@
         <header>Color code</header>
         <div class="container">
             <div class="row">
-                <div id="tries" class="col">
+                <div id="tries" class="col col-xs-8">
                 </div>
-                <div class="col">
+                <div class="col col-xs-4">
                     <div class="row">
                         <div id="results" class="col">
                         </div>
-                        <div class="col"></div>
+                        <div class="col hidden-xs"></div>
                     </div>
                     
                 </div>
@@ -27,28 +27,28 @@
         </div>
         <div class="container">
             <div class="row">
-                <div class="col">
+                <div class="col col-xs-8">
                     <div class="row"><label class="form-check-label">Your current guess:</label></div>
                     <div id="guess" class="row tablerow"></div>
                     <div class="row"><label class="form-check-label">Color picker:</label></div>
                     <div id="options" class="row tablerow">
-                        <div class="col"><input onchange="changeSelectedColor('red')" class="form-check-input" type="radio" name="options" id="radiored" value="red" checked><label class="form-check-label" for="radiored"><div class="box colorbox redbox" style="background-color: red;"></div></label></div>
-                        <div class="col"><input onchange="changeSelectedColor('green')" class="form-check-input" type="radio" name="options" id="radiogreen" value="green"><label class="form-check-label" for="radiogreen"><div class="box colorbox greenbox" style="background-color: green;"></div></label></div>
-                        <div class="col"><input onchange="changeSelectedColor('yellow')" class="form-check-input" type="radio" name="options" id="radioyellow" value="yellow"><label class="form-check-label" for="radioyellow"><div class="box colorbox yellowbox" style="background-color: yellow;"></div></label></div>
-                        <div class="col"><input onchange="changeSelectedColor('blue')" class="form-check-input" type="radio" name="options" id="radioblue" value="blue"><label class="form-check-label" for="radioblue"><div class="box colorbox bluebox" style="background-color: blue;"></div></label></div>
-                        <div class="col"><input onchange="changeSelectedColor('orange')" class="form-check-input" type="radio" name="options" id="radioorange" value="orange"><label class="form-check-label" for="radioorange"><div class="box colorbox orangebox" style="background-color: orange;"></div></label></div>
-                        <div class="col"><input onchange="changeSelectedColor('purple')" class="form-check-input" type="radio" name="options" id="radiopurple" value="purple"><label class="form-check-label" for="radiopurple"><div class="box colorbox purplebox" style="background-color: purple;"></div></label></div>
+                        <div class="col" onclick="changeSelectedColor('red')"><input onchange="changeSelectedColor('red')" class="form-check-input" type="radio" name="options" id="radiored" value="red" checked><label class="form-check-label" for="radiored"><div class="box colorbox redbox" style="background-color: red;"></div></label></div>
+                        <div class="col" onclick="changeSelectedColor('green')"><input onchange="changeSelectedColor('green')" class="form-check-input" type="radio" name="options" id="radiogreen" value="green"><label class="form-check-label" for="radiogreen"><div class="box colorbox greenbox" style="background-color: green;"></div></label></div>
+                        <div class="col" onclick="changeSelectedColor('yellow')"><input onchange="changeSelectedColor('yellow')" class="form-check-input" type="radio" name="options" id="radioyellow" value="yellow"><label class="form-check-label" for="radioyellow"><div class="box colorbox yellowbox" style="background-color: yellow;"></div></label></div>
+                        <div class="col" onclick="changeSelectedColor('blue')"><input onchange="changeSelectedColor('blue')" class="form-check-input" type="radio" name="options" id="radioblue" value="blue"><label class="form-check-label" for="radioblue"><div class="box colorbox bluebox" style="background-color: blue;"></div></label></div>
+                        <div class="col" onclick="changeSelectedColor('orange')"><input onchange="changeSelectedColor('orange')" class="form-check-input" type="radio" name="options" id="radioorange" value="orange"><label class="form-check-label" for="radioorange"><div class="box colorbox orangebox" style="background-color: orange;"></div></label></div>
+                        <div class="col" onclick="changeSelectedColor('purple')"><input onchange="changeSelectedColor('purple')" class="form-check-input" type="radio" name="options" id="radiopurple" value="purple"><label class="form-check-label" for="radiopurple"><div class="box colorbox purplebox" style="background-color: purple;"></div></label></div>
                     </div>
                     
                 </div>
-                <div class="col">
+                <div class="col col-xs-4">
                     <div class="row">
                         <div class="col">
                             <div class="row tablerow"><button id="submitBtn" onclick="guess()" class="btn btn-primary" disabled>Guess</button></div>
                             <div class="row tablerow"></div>
                             <div class="row tablerow"><button id="copyPrevious" onclick="copyPrevious()" class="btn btn-primary" disabled>Repeat</button></div>
                         </div>
-                        <div class="col">
+                        <div class="col hidden-xs">
                             
                         </div>
                     </div>
