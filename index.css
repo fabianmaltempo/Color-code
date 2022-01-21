@@ -1,0 +1,56 @@
+.box{
+    height: 25px; 
+    width: 25px; 
+}
+
+.attemptbox{
+    border-color: black; 
+    border-style: solid;
+}
+
+.tablerow{
+    margin-top: 10px;
+    height: 30px;
+}
+
+#tries{
+    border-color: black; 
+    border-style: solid;
+}
+
+.guessbox{
+    border-color: gray; 
+    border-style: solid;
+}
+
+.red{
+    background-color: red;
+}
+
+.yellow{
+    background-color: yellow;
+}
+
+.blue{
+    background-color: blue;
+}
+
+.orange{
+    background-color: orange;
+}
+
+.purple{
+    background-color: purple;
+}
+
+.green{
+    background-color: green;
+}
+
+.correct{
+    background-color: black;
+}
+
+.misplaced{
+    background-color: grey;
+}

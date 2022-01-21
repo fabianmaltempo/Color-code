@@ -1,0 +1,61 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="index.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <script src="src/init.js" defer></script>
+    </head>
+    <body>
+        <header>Color code</header>
+        <div class="container">
+            <div class="row">
+                <div id="tries" class="col">
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <div id="results" class="col">
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="row"><label class="form-check-label">Your current guess:</label></div>
+                    <div id="guess" class="row tablerow"></div>
+                    <div class="row"><label class="form-check-label">Color picker:</label></div>
+                    <div id="options" class="row tablerow">
+                        <div class="col"><input onchange="changeSelectedColor('red')" class="form-check-input" type="radio" name="options" id="radiored" value="red" checked><label class="form-check-label" for="radiored"><div class="box colorbox redbox" style="background-color: red;"></div></label></div>
+                        <div class="col"><input onchange="changeSelectedColor('green')" class="form-check-input" type="radio" name="options" id="radiogreen" value="green"><label class="form-check-label" for="radiogreen"><div class="box colorbox greenbox" style="background-color: green;"></div></label></div>
+                        <div class="col"><input onchange="changeSelectedColor('yellow')" class="form-check-input" type="radio" name="options" id="radioyellow" value="yellow"><label class="form-check-label" for="radioyellow"><div class="box colorbox yellowbox" style="background-color: yellow;"></div></label></div>
+                        <div class="col"><input onchange="changeSelectedColor('blue')" class="form-check-input" type="radio" name="options" id="radioblue" value="blue"><label class="form-check-label" for="radioblue"><div class="box colorbox bluebox" style="background-color: blue;"></div></label></div>
+                        <div class="col"><input onchange="changeSelectedColor('orange')" class="form-check-input" type="radio" name="options" id="radioorange" value="orange"><label class="form-check-label" for="radioorange"><div class="box colorbox orangebox" style="background-color: orange;"></div></label></div>
+                        <div class="col"><input onchange="changeSelectedColor('purple')" class="form-check-input" type="radio" name="options" id="radiopurple" value="purple"><label class="form-check-label" for="radiopurple"><div class="box colorbox purplebox" style="background-color: purple;"></div></label></div>
+                    </div>
+                    
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
+                            <div class="row tablerow"><button id="submitBtn" onclick="guess()" class="btn btn-primary" disabled>Guess</button></div>
+                            <div class="row tablerow"></div>
+                            <div class="row tablerow"><button id="copyPrevious" onclick="copyPrevious()" class="btn btn-primary" disabled>Repeat</button></div>
+                        </div>
+                        <div class="col">
+                            
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    </body>
+</html>
