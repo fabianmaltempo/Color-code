@@ -24,7 +24,7 @@ function fillTriesBoxes(){
     for(let i=0;i<setup.attempts;i++){
         let inner=""
         inner+=`
-            <div class="row tablerow">
+            <div class="row tablerow" onclick="copyPrevious(`+ (setup.attempts-i-1) +`)">
         `
         for(let j=0;j<setup.difficulty;j++){
             inner+=`
@@ -207,9 +207,9 @@ function fillResult(options: result){
 }
 
 //Copy previous
-function copyPrevious(){
+function copyPrevious(option:number){
     let i=0
-    for(let color of attempts[attempt-1]){
+    for(let color of attempts[option]){
         guesses[i]=color;
         let guessbox = document.querySelector("#box" + i);
         guessbox.className="box guessbox";

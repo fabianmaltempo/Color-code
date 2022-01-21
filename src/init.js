@@ -17,7 +17,7 @@ var setup = {
 function fillTriesBoxes() {
     for (var i = 0; i < setup.attempts; i++) {
         var inner = "";
-        inner += "\n            <div class=\"row tablerow\">\n        ";
+        inner += "\n            <div class=\"row tablerow\" onclick=\"copyPrevious(" + (setup.attempts - i - 1) + ")\">\n        ";
         for (var j = 0; j < setup.difficulty; j++) {
             inner += "\n                <div class=\"col d-flex justify-content-center\"><div class=\"box attemptbox\" id=\"attempt" + (setup.attempts - i - 1) + "box" + j + "\"></div></div>\n            ";
         }
@@ -182,9 +182,9 @@ function fillResult(options) {
     }
 }
 //Copy previous
-function copyPrevious() {
+function copyPrevious(option) {
     var i = 0;
-    for (var _i = 0, _a = attempts[attempt - 1]; _i < _a.length; _i++) {
+    for (var _i = 0, _a = attempts[option]; _i < _a.length; _i++) {
         var color = _a[_i];
         guesses[i] = color;
         var guessbox = document.querySelector("#box" + i);
