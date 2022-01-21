@@ -124,10 +124,12 @@ function changeSelectedColor(color: string){
 let attempt=0
 let attempts=[];
 function guess(){
-    let attemptonbox0=document.querySelector("#tablerow"+attempt);
-    attemptonbox0.className="row tablerow"
-    let attemptonbox1=document.querySelector("#tablerow"+(attempt+1))
-    attemptonbox1.classList.add("onattempt")
+    if(attempt!=setup.attempts-1){
+        let attemptonbox0=document.querySelector("#tablerow"+attempt);
+        attemptonbox0.className="row tablerow"
+        let attemptonbox1=document.querySelector("#tablerow"+(attempt+1))
+        attemptonbox1.classList.add("onattempt")
+    }
     attempts.push(guesses.slice())
     let i=0;
     for(let color of attempts[attempt]){

@@ -102,10 +102,12 @@ function changeSelectedColor(color) {
 var attempt = 0;
 var attempts = [];
 function guess() {
-    var attemptonbox0 = document.querySelector("#tablerow" + attempt);
-    attemptonbox0.className = "row tablerow";
-    var attemptonbox1 = document.querySelector("#tablerow" + (attempt + 1));
-    attemptonbox1.classList.add("onattempt");
+    if (attempt != setup.attempts - 1) {
+        var attemptonbox0 = document.querySelector("#tablerow" + attempt);
+        attemptonbox0.className = "row tablerow";
+        var attemptonbox1 = document.querySelector("#tablerow" + (attempt + 1));
+        attemptonbox1.classList.add("onattempt");
+    }
     attempts.push(guesses.slice());
     var i = 0;
     for (var _i = 0, _a = attempts[attempt]; _i < _a.length; _i++) {
