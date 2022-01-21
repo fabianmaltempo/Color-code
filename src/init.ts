@@ -53,7 +53,7 @@ function fillResultsDiv(){
         `
         for(let j=0;j<setup.difficulty;j++){
             inner+=`
-                <div class="col align-items-center d-flex justify-content-center"><div class="box resultbox rounded-circle shadow" id="attempt`+ (setup.attempts-i-1) +`resultbox`+ j +`"></div></div>
+                <div class="col align-items-center d-flex justify-content-center"><div class="circle resultbox rounded-circle shadow" id="attempt`+ (setup.attempts-i-1) +`resultbox`+ j +`"></div></div>
             `
         }
         inner+=`
