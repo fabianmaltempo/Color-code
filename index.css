@@ -14,10 +14,19 @@
     height: 40px;
 }
 
-.top-border{
-    border-top-color: lightgray;
-    border-top-style:groove;
-    border-top-width: 1px;
+.tablerow2{
+    margin-top: 10px;
+    height: 60px;
+}
+
+.buttoncol{
+    margin-right: 10px;
+}
+
+.bottom-border{
+    border-bottom-color: lightgray;
+    border-bottom-style:groove;
+    border-bottom-width: 1px;
 }
 
 .onattempt{
@@ -37,6 +46,11 @@
 
 #board{
     background-color: burlywood;
+}
+
+#options{
+    margin: 10px 10px 10px 10px;
+    background-color: lightgrey;
 }
 
 .rules{

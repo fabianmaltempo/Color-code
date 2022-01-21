@@ -10,18 +10,15 @@
     </head>
     <body>
         <header class="h1">Color code</header>
-        <div class="container shadow" id="board">
+        <div class="container shadow rounded" id="board">
             <div class="row">
                 <div class="col col-6">
                     <div class="row">
                         <div id="tries" class="col col-xs-8">
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="row"><label class="form-check-label">Your current guess:</label></div>
-                        <div id="guess" class="row tablerow"></div>
-                        <div class="row"><label class="form-check-label">Color picker:</label></div>
-                        <div id="options" class="row tablerow">
+                    <div class="row tablerow2 align-items-center d-flex justify-content-center rounded shadow card" id="options" >
+                        <div class="row">
                             <div class="col align-items-center d-flex justify-content-center" onclick="changeSelectedColor('red')"><div class="box colorbox redbox selected-color" id="guessred" style="background-color: red;"></div></div>
                             <div class="col align-items-center d-flex justify-content-center" onclick="changeSelectedColor('green')"><div class="box colorbox greenbox" id="guessgreen" style="background-color: green;"></div></div>
                             <div class="col align-items-center d-flex justify-content-center" onclick="changeSelectedColor('yellow')"><div class="box colorbox yellowbox" id="guessyellow" style="background-color: yellow;"></div></div>
@@ -36,11 +33,15 @@
                         <div id="results" class="col">
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col" id="buttons-div">
-                            <div class="row tablerow"><button id="submitBtn" onclick="guess()" class="btn btn-primary" disabled>Guess</button></div>
-                            <div class="row tablerow"></div>
-                            <div class="row tablerow"><button id="clearGuess" onclick="clearGuess()" class="btn btn-primary">Clear</button></div>
+                    <div class="row tablerow2 align-items-center d-flex justify-content-center" id="buttons-div">
+                        <div class="col buttoncol">
+                            <div class="row"><button id="submitBtn" onclick="guess()" class="btn btn-dark" disabled>Guess</button></div>
+                        </div>
+                        <div class="col buttoncol">
+                            <div class="row"><button id="clearGuess" onclick="clearGuess()" class="btn btn-dark">Clear</button></div>
+                        </div>
+                        <div class="col buttoncol">
+                            <div class="row"><button id="clearGuess" onclick="document.location.reload()" class="btn btn-dark">Reset</button></div>
                         </div>
                     </div>
                 </div>

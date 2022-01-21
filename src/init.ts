@@ -24,11 +24,11 @@ function fillTriesBoxes(){
     for(let i=0;i<setup.attempts;i++){
         let inner=""
         inner+=`
-            <div class="row tablerow top-border" id="tablerow`+(setup.attempts-i-1)+`" onclick="copyPrevious(`+ (setup.attempts-i-1) +`)">
+            <div class="row tablerow bottom-border" id="tablerow`+(setup.attempts-i-1)+`" onclick="copyPrevious(`+ (setup.attempts-i-1) +`)">
         `
         for(let j=0;j<setup.difficulty;j++){
             inner+=`
-                <div class="col align-items-center d-flex justify-content-center"><div class="box attemptbox" id="attempt`+ (setup.attempts-i-1) +`box`+ j +`"></div></div>
+                <div class="col align-items-center d-flex justify-content-center attempt`+ (setup.attempts-i-1) +`BoxDiv"><div class="box attemptbox" id="attempt`+ (setup.attempts-i-1) +`box`+ j +`"></div></div>
             `
         }
         inner+=`
@@ -36,29 +36,24 @@ function fillTriesBoxes(){
         `
         elems.tries.innerHTML+=inner
     }
-    let attemptbox0=document.querySelector("#tablerow0")
-    attemptbox0.classList.add("onattempt")
+    let attemptrow0=document.querySelector("#tablerow0")
+    attemptrow0.classList.add("onattempt")
+    let attemptBoxes0=document.querySelectorAll(".attempt0BoxDiv")
+    for(let j=0;j<attemptBoxes0.length;j++){
+        attemptBoxes0[j].setAttribute("onclick","fillGuessBox("+ j +")")
+    }
 }
 fillTriesBoxes()
-
-function fillGuessBoxes(){
-    let inner="";
-    for(let i=0;i<setup.difficulty;i++){
-        inner+=`<div class="col align-items-center d-flex justify-content-center" onclick="fillGuessBox(`+ i +`)"><div class="box guessbox" id="box` + i + `"></div></div>`
-    }
-    elems.guess.innerHTML=inner;
-}
-fillGuessBoxes()
 
 function fillResultsDiv(){
     for(let i=0;i<setup.attempts;i++){
         let inner=""
         inner+=`
-            <div class="row tablerow top-border">
+            <div class="row tablerow bottom-border">
         `
         for(let j=0;j<setup.difficulty;j++){
             inner+=`
-                <div class="col align-items-center d-flex justify-content-center"><div class="box resultbox" id="attempt`+ (setup.attempts-i-1) +`resultbox`+ j +`"></div></div>
+                <div class="col align-items-center d-flex justify-content-center"><div class="box resultbox rounded-circle" id="attempt`+ (setup.attempts-i-1) +`resultbox`+ j +`"></div></div>
             `
         }
         inner+=`
@@ -80,19 +75,9 @@ function clearGuesses(): string[]{
 }
 let guesses=clearGuesses()
 
-function clearGuessBoxes(){
-    for(let i=0;i<setup.difficulty;i++){
-        let guessbox = document.querySelector("#box" + i);
-        guessbox.className="box guessbox";
-    }
-}
-
 let selectedColor="red";
 function fillGuessBox(i: number){
     guesses[i]=selectedColor;
-    let guessbox = document.querySelector("#box" + i);
-    guessbox.className="box guessbox";
-    guessbox.classList.add(selectedColor)
     let attemptbox=document.querySelector("#attempt"+attempt+"box"+i)
     attemptbox.className="box attemptbox";
     attemptbox.classList.add(selectedColor);
@@ -109,11 +94,13 @@ function isCompleteGuesses(): boolean{
 }
 
 function changeSelectedColor(color: string){
-    let prevSelBox=document.querySelector("#guess"+selectedColor);
-    prevSelBox.classList.remove("selected-color")
-    let newSelBox=document.querySelector("#guess"+color);
-    newSelBox.classList.add("selected-color")
-    selectedColor=color;
+    if(color!=selectedColor){
+        let prevSelBox=document.querySelector("#guess"+selectedColor);
+        prevSelBox.classList.remove("selected-color")
+        let newSelBox=document.querySelector("#guess"+color);
+        newSelBox.classList.add("selected-color")
+        selectedColor=color;
+    }
     let i=0
     for(let item of guesses){
         if(item==""){
@@ -128,10 +115,20 @@ let attempt=0
 let attempts=[];
 function guess(){
     if(attempt!=setup.attempts-1){
+        //change attempt focused row
         let attemptonbox0=document.querySelector("#tablerow"+attempt);
-        attemptonbox0.className="row tablerow top-border"
+        attemptonbox0.className="row tablerow bottom-border"
         let attemptonbox1=document.querySelector("#tablerow"+(attempt+1))
         attemptonbox1.classList.add("onattempt")
+        //change attempted row
+        let attemptBoxes0=document.querySelectorAll(".attempt"+ attempt +"BoxDiv");
+        for(let j=0;j<attemptBoxes0.length;j++){
+            attemptBoxes0[j].removeAttribute("onclick");
+        }
+        let attemptBoxes1=document.querySelectorAll(".attempt"+ (attempt+1) +"BoxDiv")
+        for(let j=0;j<attemptBoxes1.length;j++){
+            attemptBoxes1[j].setAttribute("onclick","fillGuessBox("+ j +")")
+        } 
     }
     attempts.push(guesses.slice())
     let i=0;
@@ -198,7 +195,6 @@ function guessIsCode(): boolean{
 
 function clearGuess(){
     guesses=clearGuesses();
-    clearGuessBoxes();
     (elems.submitBtn as HTMLButtonElement).disabled=true;
     for(let i=0;i<setup.difficulty;i++){
         let attemptbox=document.querySelector("#attempt"+attempt+"box"+i);
@@ -236,9 +232,6 @@ function copyPrevious(option:number){
     let i=0
     for(let color of attempts[option]){
         guesses[i]=color;
-        let guessbox = document.querySelector("#box" + i);
-        guessbox.className="box guessbox";
-        guessbox.classList.add(color)
         let attemptbox=document.querySelector("#attempt"+attempt+"box"+i)
         attemptbox.className="box attemptbox";
         attemptbox.classList.add(color);

@@ -17,31 +17,27 @@ var setup = {
 function fillTriesBoxes() {
     for (var i = 0; i < setup.attempts; i++) {
         var inner = "";
-        inner += "\n            <div class=\"row tablerow top-border\" id=\"tablerow" + (setup.attempts - i - 1) + "\" onclick=\"copyPrevious(" + (setup.attempts - i - 1) + ")\">\n        ";
+        inner += "\n            <div class=\"row tablerow bottom-border\" id=\"tablerow" + (setup.attempts - i - 1) + "\" onclick=\"copyPrevious(" + (setup.attempts - i - 1) + ")\">\n        ";
         for (var j = 0; j < setup.difficulty; j++) {
-            inner += "\n                <div class=\"col align-items-center d-flex justify-content-center\"><div class=\"box attemptbox\" id=\"attempt" + (setup.attempts - i - 1) + "box" + j + "\"></div></div>\n            ";
+            inner += "\n                <div class=\"col align-items-center d-flex justify-content-center attempt" + (setup.attempts - i - 1) + "BoxDiv\"><div class=\"box attemptbox\" id=\"attempt" + (setup.attempts - i - 1) + "box" + j + "\"></div></div>\n            ";
         }
         inner += "\n            </div>\n        ";
         elems.tries.innerHTML += inner;
     }
-    var attemptbox0 = document.querySelector("#tablerow0");
-    attemptbox0.classList.add("onattempt");
+    var attemptrow0 = document.querySelector("#tablerow0");
+    attemptrow0.classList.add("onattempt");
+    var attemptBoxes0 = document.querySelectorAll(".attempt0BoxDiv");
+    for (var j = 0; j < attemptBoxes0.length; j++) {
+        attemptBoxes0[j].setAttribute("onclick", "fillGuessBox(" + j + ")");
+    }
 }
 fillTriesBoxes();
-function fillGuessBoxes() {
-    var inner = "";
-    for (var i = 0; i < setup.difficulty; i++) {
-        inner += "<div class=\"col align-items-center d-flex justify-content-center\" onclick=\"fillGuessBox(" + i + ")\"><div class=\"box guessbox\" id=\"box" + i + "\"></div></div>";
-    }
-    elems.guess.innerHTML = inner;
-}
-fillGuessBoxes();
 function fillResultsDiv() {
     for (var i = 0; i < setup.attempts; i++) {
         var inner = "";
-        inner += "\n            <div class=\"row tablerow top-border\">\n        ";
+        inner += "\n            <div class=\"row tablerow bottom-border\">\n        ";
         for (var j = 0; j < setup.difficulty; j++) {
-            inner += "\n                <div class=\"col align-items-center d-flex justify-content-center\"><div class=\"box resultbox\" id=\"attempt" + (setup.attempts - i - 1) + "resultbox" + j + "\"></div></div>\n            ";
+            inner += "\n                <div class=\"col align-items-center d-flex justify-content-center\"><div class=\"box resultbox rounded-circle\" id=\"attempt" + (setup.attempts - i - 1) + "resultbox" + j + "\"></div></div>\n            ";
         }
         inner += "\n            </div>\n        ";
         elems.results.innerHTML += inner;
@@ -58,18 +54,9 @@ function clearGuesses() {
     return guesses;
 }
 var guesses = clearGuesses();
-function clearGuessBoxes() {
-    for (var i = 0; i < setup.difficulty; i++) {
-        var guessbox = document.querySelector("#box" + i);
-        guessbox.className = "box guessbox";
-    }
-}
 var selectedColor = "red";
 function fillGuessBox(i) {
     guesses[i] = selectedColor;
-    var guessbox = document.querySelector("#box" + i);
-    guessbox.className = "box guessbox";
-    guessbox.classList.add(selectedColor);
     var attemptbox = document.querySelector("#attempt" + attempt + "box" + i);
     attemptbox.className = "box attemptbox";
     attemptbox.classList.add(selectedColor);
@@ -87,11 +74,13 @@ function isCompleteGuesses() {
     return true;
 }
 function changeSelectedColor(color) {
-    var prevSelBox = document.querySelector("#guess" + selectedColor);
-    prevSelBox.classList.remove("selected-color");
-    var newSelBox = document.querySelector("#guess" + color);
-    newSelBox.classList.add("selected-color");
-    selectedColor = color;
+    if (color != selectedColor) {
+        var prevSelBox = document.querySelector("#guess" + selectedColor);
+        prevSelBox.classList.remove("selected-color");
+        var newSelBox = document.querySelector("#guess" + color);
+        newSelBox.classList.add("selected-color");
+        selectedColor = color;
+    }
     var i = 0;
     for (var _i = 0, guesses_2 = guesses; _i < guesses_2.length; _i++) {
         var item = guesses_2[_i];
@@ -106,10 +95,20 @@ var attempt = 0;
 var attempts = [];
 function guess() {
     if (attempt != setup.attempts - 1) {
+        //change attempt focused row
         var attemptonbox0 = document.querySelector("#tablerow" + attempt);
-        attemptonbox0.className = "row tablerow top-border";
+        attemptonbox0.className = "row tablerow bottom-border";
         var attemptonbox1 = document.querySelector("#tablerow" + (attempt + 1));
         attemptonbox1.classList.add("onattempt");
+        //change attempted row
+        var attemptBoxes0 = document.querySelectorAll(".attempt" + attempt + "BoxDiv");
+        for (var j = 0; j < attemptBoxes0.length; j++) {
+            attemptBoxes0[j].removeAttribute("onclick");
+        }
+        var attemptBoxes1 = document.querySelectorAll(".attempt" + (attempt + 1) + "BoxDiv");
+        for (var j = 0; j < attemptBoxes1.length; j++) {
+            attemptBoxes1[j].setAttribute("onclick", "fillGuessBox(" + j + ")");
+        }
     }
     attempts.push(guesses.slice());
     var i = 0;
@@ -177,7 +176,6 @@ function guessIsCode() {
 }
 function clearGuess() {
     guesses = clearGuesses();
-    clearGuessBoxes();
     elems.submitBtn.disabled = true;
     for (var i = 0; i < setup.difficulty; i++) {
         var attemptbox = document.querySelector("#attempt" + attempt + "box" + i);
@@ -213,9 +211,6 @@ function copyPrevious(option) {
     for (var _i = 0, _a = attempts[option]; _i < _a.length; _i++) {
         var color = _a[_i];
         guesses[i] = color;
-        var guessbox = document.querySelector("#box" + i);
-        guessbox.className = "box guessbox";
-        guessbox.classList.add(color);
         var attemptbox = document.querySelector("#attempt" + attempt + "box" + i);
         attemptbox.className = "box attemptbox";
         attemptbox.classList.add(color);
