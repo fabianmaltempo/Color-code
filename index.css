@@ -54,12 +54,7 @@
 
 .rules{
     background-color: lightyellow;
-}
 
-.guessbox{
-    border-color: black; 
-    border-style: solid;
-    border-width: 1px;
 }
 
 .red{
@@ -107,3 +102,37 @@
 .secret-back{
     background-color: burlywood;
 }
+
+@media only screen and (max-width: 1000px) {
+    .rules{
+        display:none;
+    }
+    .box{
+        height: 20px; 
+        width: 20px; 
+    }
+    
+    .circle{
+        height: 15px; 
+        width: 15px; 
+    }
+    .buttoncol{
+        margin-right: 5px;
+    }
+    #options{
+        margin-top: 5px;
+        margin-bottom: 5px;
+        margin-right: 0px;
+        margin-left: 0px;
+        background-color: lightgrey;
+        height: 110px;
+    }
+    .optionrow{
+        margin-bottom: 5px;
+    }
+    .colorbox{
+        margin-bottom: 5px;
+        margin-top: 5px;
+    }
+    /* CSS that should be displayed if width is equal to or less than 800px goes here */
+  }
