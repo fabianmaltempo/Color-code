@@ -102,13 +102,13 @@ function guess() {
     //change attempt focused row
     var attemptonbox0 = document.querySelector("#tablerow" + attempt);
     attemptonbox0.className = "row tablerow bottom-border attemptrow";
-    attemptonbox0.setAttribute("onclick", "copyPrevious(" + attempt + ")");
     //change attempted row
     var attemptBoxes0 = document.querySelectorAll(".attempt" + attempt + "BoxDiv");
     for (var j = 0; j < attemptBoxes0.length; j++) {
         attemptBoxes0[j].removeAttribute("onclick");
     }
     if (attempt != setup.attempts - 1) {
+        attemptonbox0.setAttribute("onclick", "copyPrevious(" + attempt + ")");
         var attemptonbox1 = document.querySelector("#tablerow" + (attempt + 1));
         attemptonbox1.classList.add("onattempt");
         var attemptBoxes1 = document.querySelectorAll(".attempt" + (attempt + 1) + "BoxDiv");
@@ -187,7 +187,7 @@ function guessIsCode() {
 function clearGuess() {
     guesses = clearGuesses();
     elems.submitBtn.disabled = true;
-    if (!guessIsCode()) {
+    if (!guessIsCode() && attempt != setup.attempts) {
         for (var i = 0; i < setup.difficulty; i++) {
             var attemptbox = document.querySelector("#attempt" + attempt + "box" + i);
             attemptbox.className = "box attemptbox shadow";

@@ -124,17 +124,15 @@ function guess(){
     //change attempt focused row
     let attemptonbox0=document.querySelector("#tablerow"+attempt);
     attemptonbox0.className="row tablerow bottom-border attemptrow"
-    attemptonbox0.setAttribute("onclick",`copyPrevious(`+ attempt +`)`)
     //change attempted row
     let attemptBoxes0=document.querySelectorAll(".attempt"+ attempt +"BoxDiv");
     for(let j=0;j<attemptBoxes0.length;j++){
         attemptBoxes0[j].removeAttribute("onclick");
     }
     if(attempt!=setup.attempts-1){
-        
+        attemptonbox0.setAttribute("onclick",`copyPrevious(`+ attempt +`)`)
         let attemptonbox1=document.querySelector("#tablerow"+(attempt+1))
         attemptonbox1.classList.add("onattempt")
-        
         let attemptBoxes1=document.querySelectorAll(".attempt"+ (attempt+1) +"BoxDiv")
         for(let j=0;j<attemptBoxes1.length;j++){
             attemptBoxes1[j].setAttribute("onclick","fillGuessBox("+ j +")")
@@ -208,7 +206,7 @@ function guessIsCode(): boolean{
 function clearGuess(){
     guesses=clearGuesses();
     (elems.submitBtn as HTMLButtonElement).disabled=true;
-    if(!guessIsCode()){
+    if(!guessIsCode() && attempt!=setup.attempts){
         for(let i=0;i<setup.difficulty;i++){
             let attemptbox=document.querySelector("#attempt"+attempt+"box"+i);
             attemptbox.className="box attemptbox shadow"
