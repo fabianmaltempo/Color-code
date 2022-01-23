@@ -81,12 +81,24 @@
     background-color: green;
 }
 
+.brown{
+    background-color: brown;
+}
+
+.black{
+    background-color: black;
+}
+
+.white{
+    background-color: white;
+}
+
 .correct{
     background-color: black;
 }
 
 .misplaced{
-    background-color: grey;
+    background-color: white;
 }
 
 .selected-color{

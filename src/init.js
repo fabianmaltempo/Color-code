@@ -3,7 +3,7 @@ var triesDiv = document.querySelector("#tries");
 var guessDiv = document.querySelector("#guess");
 var submitBtn = document.querySelector("#submitBtn");
 var resultsDiv = document.querySelector("#results");
-var colorList = ["red", "green", "yellow", "blue", "orange", "purple"];
+var colorList = ["red", "green", "yellow", "blue", "orange", "purple", "brown", "black", "white"];
 var elems = {
     tries: triesDiv,
     guess: guessDiv,
