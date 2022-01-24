@@ -22,6 +22,11 @@
     margin-right: 10px;
 }
 
+.colorbox{
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
 .bottom-border{
     border-bottom-color: lightgray;
     border-bottom-style:groove;
@@ -115,7 +120,7 @@
     background-color: burlywood;
 }
 
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 991px) {
     .rules{
         display:none;
     }
@@ -141,10 +146,6 @@
     }
     .optionrow{
         margin-bottom: 5px;
-    }
-    .colorbox{
-        margin-bottom: 5px;
-        margin-top: 5px;
     }
     /* CSS that should be displayed if width is equal to or less than 800px goes here */
   }
